@@ -2,12 +2,12 @@ import cv2
 from PIL import Image
 
 # Resize image before processing
-resize_img = cv2.imread('image.jpg')
+resize_img = cv2.imread('input/image.jpg')
 resize_img = cv2.resize(resize_img, (400, 400))
-cv2.imwrite('image.jpg', resize_img)
+cv2.imwrite('input/image.jpg', resize_img)
 
 def process(threshold, min_area):
-    image = Image.open("image.jpg")
+    image = Image.open("input/image.jpg")
     def process_image (threshold, image):
         gray_image = image.convert("L")
         for x in range(gray_image.width):
@@ -20,8 +20,8 @@ def process(threshold, min_area):
 
     # Save processed image.
     processed_image = process_image(threshold, image)
-    processed_image.save("processed.jpg")
-    img = cv2.imread("processed.jpg", 0)
+    processed_image.save("input/temp/processed.jpg")
+    img = cv2.imread("input/temp/processed.jpg", 0)
 
     # Find contours in the binary image
     contours, _ = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)

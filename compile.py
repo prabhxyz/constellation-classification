@@ -28,5 +28,5 @@ accuracy = accuracy_score(y_test, y_pred)
 print('Accuracy:', accuracy)
 
 # Save the model to a file
-filename = 'models/data/model_new.sav'
+filename = 'models/model_new.sav'
 joblib.dump(classifier, filename)

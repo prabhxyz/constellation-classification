@@ -45,6 +45,10 @@ def rotate_coords(locations, origin=(random.randrange(150, 250), random.randrang
     for x, y in locations:
         x_ = ox + zoom * (math.cos(angle) * (x - ox) - math.sin(angle) * (y - oy))
         y_ = oy + zoom * (math.sin(angle) * (x - ox) + math.cos(angle) * (y - oy))
+        if x_ < 0:
+            x_ = 0
+        if y_ < 0:
+            y_ = 0
         rotated_coords.append((round(x_), round(y_)))
     return rotated_coords
 def gen(rng):

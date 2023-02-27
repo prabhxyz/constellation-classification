@@ -1,23 +1,23 @@
 from PIL import Image, ImageDraw
-def plot_circles(coords):
-    # Create a black image of size 400x400
-    img = Image.new("RGB", (400, 400), (0, 0, 0))
-    draw = ImageDraw.Draw(img)
-    # Draw white circles at each coordinate with a radius of 3
-    for coord in coords:
-        draw.ellipse((coord[0] - 3, coord[1] - 3, coord[0] + 3, coord[1] + 3), fill=(255, 255, 255),
-                     outline=(255, 255, 255))
-    # Show the image
-    img.show()
 
-# Unpack
-def convert_to_tuples(coords):
-    tuples = [(coords[i], coords[i + 1]) for i in range(0, len(coords), 2)]
-    return tuples
+# Get the input string
+input_str = input("Enter the coordinates separated by commas: ").strip()
 
-# Test Data (This is example data)
-coords = [372,395,239,445,269,264,225,192,218,36,-21,113]
-coords = convert_to_tuples(coords)
+# Split the input string into pairs of coordinates
+pairs = input_str.split(",")
+coords = []
+for i in range(0, len(pairs), 2):
+    x = int(pairs[i])
+    y = int(pairs[i+1])
+    coords.append((x, y))
 
-# Test Coordinates
-plot_circles(coords)
+# Create a new black background image
+img = Image.new("RGB", (400, 400), "black")
+
+# Draw white circles at the specified coordinates
+draw = ImageDraw.Draw(img)
+for x, y in coords:
+    draw.ellipse((x-1, y-1, x+2, y+2), fill="white")
+
+# Show the resulting image
+img.show()

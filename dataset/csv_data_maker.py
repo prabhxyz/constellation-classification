@@ -32,7 +32,12 @@ def add_to_csv(constellation, *star_coords):
 def add_row(constellation, locations):
     new_locations = []
     for nums in locations:
-        new_locations.append((move_5(nums[0]), move_5(nums[1])))
+        f_x = move_5(nums[0])
+        f_y = move_5(nums[1])
+        if f_x <= 0 or f_y <= 0:
+            new_locations.append((0, 0))
+        else:
+            new_locations.append((f_x, f_y))
     x_coords = [x for x, y in new_locations]
     y_coords = [y for x, y in new_locations]
     star_coords = [x for xy in zip(x_coords, y_coords) for x in xy]

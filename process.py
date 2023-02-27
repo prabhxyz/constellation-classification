@@ -1,5 +1,5 @@
 import cv2
-from PIL import Image
+from PIL import Image, ImageFilter
 
 # Resize image before processing
 resize_img = cv2.imread('input/image.jpg')
@@ -8,6 +8,7 @@ cv2.imwrite('input/image.jpg', resize_img)
 
 def process(threshold, min_area):
     image = Image.open("input/image.jpg")
+    image = image.filter(ImageFilter.BoxBlur(3))
     def process_image (threshold, image):
         gray_image = image.convert("L")
         for x in range(gray_image.width):

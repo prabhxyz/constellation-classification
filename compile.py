@@ -1,32 +1,31 @@
-# Import the necessary libraries
-import pandas as pd
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
+from sklearn.impute import SimpleImputer
+import pandas as pd
 import joblib
 
-# Load the .csv file into a Pandas dataframe
+# Load the dataset
 df = pd.read_csv('dataset/constellation_data.csv')
 
-# Replace NaN values with a placeholder
-df.fillna(0, inplace=True)
+# Split the dataset into training and testing sets
+X = df.drop('constellation_name', axis=1)
+y = df['constellation_name']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Split the data into training and testing sets
-X = df.iloc[:, 1:]
-y = df.iloc[:, 0]
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+imputer = SimpleImputer(strategy='constant', fill_value=-5)
+X_train = imputer.fit_transform(X_train)
+X_test = imputer.transform(X_test)
 
-# Train a random forest classifier on the training data
-classifier = RandomForestClassifier(n_estimators=800, random_state=0)
-classifier.fit(X_train, y_train)
+# Train the model
+k = 650
+model = KNeighborsClassifier(n_neighbors=k)
+model.fit(X_train, y_train)
 
-# Make predictions on the test data
-y_pred = classifier.predict(X_test)
-
-# Evaluate the model's accuracy
+# Evaluate the model
+y_pred = model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
-print('Accuracy:', accuracy)
+print(f"Accuracy: {accuracy:.2f}")
 
-# Save the model to a file
-filename = 'models/model_new.sav'
-joblib.dump(classifier, filename)
+# Save the model
+joblib.dump(model, 'models/model_new.sav')

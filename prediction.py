@@ -3,7 +3,7 @@ import numpy as np
 import process
 
 # Load the saved model
-model = joblib.load('models/model16.sav')
+model = joblib.load('models/model17.sav')
 
 # The parameters for the process function... (threshold, min_area)
 # A high threshold will remove more colored pixels from the image, and so on.

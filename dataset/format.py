@@ -1,5 +1,5 @@
 import os
-def format():
+def format_csv():
    with open('constellation_data.csv', 'r') as file:
        lines = file.readlines()
 

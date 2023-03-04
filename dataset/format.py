@@ -1,4 +1,5 @@
 import os
+import delete_columns
 def format_csv():
    with open('constellation_data.csv', 'r') as file:
        lines = file.readlines()
@@ -11,4 +12,4 @@ def format_csv():
 
    os.remove("constellation_data.csv")
    os.rename("final.csv", "constellation_data.csv")
-
+   delete_columns.delete_columns()

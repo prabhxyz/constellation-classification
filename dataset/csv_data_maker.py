@@ -2,6 +2,7 @@ import csv
 import math
 import random
 import os
+import train_data_maker
 if __name__ == "__main__":
     from format import format_csv
 
@@ -137,5 +138,8 @@ def testing_data(constellation_name):
         return rotate_coords(locations)
 
 if __name__ == '__main__':
-    gen(10000)
-    format_csv()
+    def data_gen(num_of_rows, num_of_img):
+        gen(num_of_rows)
+        train_data_maker.make_train(num_of_img, 8)
+        format_csv()
+    data_gen(8000, 8000)

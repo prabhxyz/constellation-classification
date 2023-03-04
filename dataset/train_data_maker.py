@@ -10,7 +10,7 @@ img_size = (400, 400)
 
 # Crete the folders
 for cls in classes:
-    os.makedirs(f"img/output/test/{cls}", exist_ok=True)
+    os.makedirs(f"dataset/img/output/test/{cls}", exist_ok=True)
 
 # Function to create the constellation images
 def create_constellation_image(locations, rotate_angle=0, brightness_adjust=0):

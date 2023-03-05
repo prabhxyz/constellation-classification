@@ -122,7 +122,7 @@ def make_test_data(num_of_images):
             cv2.imwrite(f"dataset/img/output/test/{cls}/{i}.jpg", img)
 def test(model, test_img_num):
     print("-----------------------------")
-    print("Loading model...")
+    print(f"Loading model v{model}...")
     model = joblib.load(f'models/model{model}.sav')
     # Test Data
     print("Generating testing data...")
@@ -130,6 +130,18 @@ def test(model, test_img_num):
     # Variables
     main_dir_path = 'dataset/img/output/test'
     correct = 0
+    aquarius_correct = 0
+    aries_correct = 0
+    cancer_correct = 0
+    capricorn_correct = 0
+    gemini_correct = 0
+    leo_correct = 0
+    libra_correct = 0
+    pisces_correct = 0
+    sagittarius_correct = 0
+    scorpio_correct = 0
+    taurus_correct = 0
+    virgo_correct = 0
     total = 0
     print("Testing...")
     for dirpath, dirnames, filenames in os.walk(main_dir_path):
@@ -154,9 +166,35 @@ def test(model, test_img_num):
             cur_con = 0
             if prediction[0] == os.path.basename(dirpath):
                 correct+=1
+                if prediction[0] == 'Aquarius':
+                    aquarius_correct+=1
+                elif prediction[0] == 'Aries':
+                    aries_correct+=1
+                elif prediction[0] == 'Cancer':
+                    cancer_correct+=1
+                elif prediction[0] == 'Capricorn':
+                    capricorn_correct+=1
+                elif prediction[0] == 'Gemini':
+                    gemini_correct+=1
+                elif prediction[0] == 'Leo':
+                    leo_correct+=1
+                elif prediction[0] == 'Libra':
+                    libra_correct+=1
+                elif prediction[0] == 'Pisces':
+                    pisces_correct+=1
+                elif prediction[0] == 'Sagittarius':
+                    sagittarius_correct+=1
+                elif prediction[0] == 'Scorpio':
+                    scorpio_correct+=1
+                elif prediction[0] == 'Taurus':
+                    taurus_correct+=1
+                elif prediction[0] == 'Virgo':
+                    virgo_correct+=1
             total+=1
-    print(f"Correct: {correct}\nTotal: {total}")
     print("-----------------------------")
+    print(f"Aquarius: {aquarius_correct}/{test_img_num} | {(aquarius_correct/test_img_num)*100}"+"\n"+f"Aries: {aries_correct}/{test_img_num} | {(aries_correct/test_img_num)*100}"+"\n"+f"Cancer: {cancer_correct}/{test_img_num} | {(cancer_correct/test_img_num)*100}"+"\n"+f"Capricorn: {capricorn_correct}/{test_img_num} | {(capricorn_correct/test_img_num)*100}"+"\n"+f"Gemini: {gemini_correct}/{test_img_num} | {(gemini_correct/test_img_num)*100}"+"\n"+f"Leo: {leo_correct}/{test_img_num} | {(leo_correct/test_img_num)*100}"+"\n"+f"Libra: {libra_correct}/{test_img_num} | {(libra_correct/test_img_num)*100}"+"\n"+f"Pisces: {pisces_correct}/{test_img_num} | {(pisces_correct/test_img_num)*100}"+"\n"+f"Sagittarius: {sagittarius_correct}/{test_img_num} | {(sagittarius_correct/test_img_num)*100}"+"\n"+f"Scorpio: {scorpio_correct}/{test_img_num} | {(scorpio_correct/test_img_num)*100}"+"\n"+f"Taurus: {taurus_correct}/{test_img_num} | {(taurus_correct/test_img_num)*100}"+"\n"+f"Virgo: {virgo_correct}/{test_img_num} | {(virgo_correct/test_img_num)*100}")
+    print("-----------")
+    print(f"Correct: {correct}\nTotal: {total}")
     print(f"Accuracy: {correct/total*100}%")
     return correct/total*100
 
@@ -164,8 +202,19 @@ def list_test(start, end, test_img_num):
     scores = {}
     for x in range(start, end+1):
         scores[f"model{x}"] = test(x, test_img_num)
+    print("-----------------------------")
     for key, value in scores.items():
         print(f"{key}: {value}%")
+
+def list_test_mean(start, end, reps, test_img_num):
+    scores = {}
+    for model_names in range(start, end+1):
+        scores[f"model{model_names}"] = []
+    for x in range(start, end+1):
+        scores[f"model{x}"].append(mean_test(x, reps, test_img_num))
+    print("-----------------------------")
+    for key, value in scores.items():
+        print(f"{key}: {sum(value)/len(value)}%")
 
 def mean_test(model, reps, test_img_num):
     scores = []
@@ -176,4 +225,4 @@ def mean_test(model, reps, test_img_num):
     return sum(scores)/len(scores)
 
 # Model Number, Number of Test Images
-mean_test(22, 3, 25)
+list_test_mean(20, 22, 3, 25)

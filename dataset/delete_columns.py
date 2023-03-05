@@ -14,5 +14,4 @@ def delete_columns():
         writer = csv.writer(f)
         writer.writerows(new_data)
 
-if "__name__" == "__main__":
-    delete_columns()
+delete_columns()

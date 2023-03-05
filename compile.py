@@ -18,9 +18,10 @@ X_train = imputer.fit_transform(X_train)
 X_test = imputer.transform(X_test)
 
 # Train the model
-k = 8
+k = 5
+model_num = 25
 model = KNeighborsClassifier(n_neighbors=k)
-print(f"Training model with k={k}....")
+print(f"Training model v{model_num} with k={k}....")
 model.fit(X_train, y_train)
 
 # Evaluate the model
@@ -29,4 +30,4 @@ accuracy = accuracy_score(y_test, y_pred)
 print(f"Accuracy: {accuracy:.2f}")
 
 # Save the model
-joblib.dump(model, 'models/model22.sav')
+joblib.dump(model, f'models/model{model_num}.sav')

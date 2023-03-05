@@ -16,6 +16,8 @@ shutil.rmtree("dataset/img/output/test")
 for cls in classes:
     os.makedirs(f"dataset/img/output/test/{cls}", exist_ok=True)
 
+dataset_made = False
+
 # Function to create the constellation images
 def rotate_coords(locations, origin=(random.randrange(150, 250), random.randrange(150, 250)), zoom=random.uniform(0.1, 2)):
     angle = random.randint(1, 360)
@@ -121,12 +123,15 @@ def make_test_data(num_of_images):
             img = create_constellation_image(locations, rotate_angle, brightness_adjust)
             cv2.imwrite(f"dataset/img/output/test/{cls}/{i}.jpg", img)
 def test(model, test_img_num):
+    global dataset_made
     print("-----------------------------")
     print(f"Loading model v{model}...")
     model = joblib.load(f'models/model{model}.sav')
     # Test Data
-    print("Generating testing data...")
-    make_test_data(test_img_num)
+    if not dataset_made:
+        print("Generating testing data...")
+        make_test_data(test_img_num)
+        dataset_made = True
     # Variables
     main_dir_path = 'dataset/img/output/test'
     correct = 0
@@ -195,6 +200,7 @@ def test(model, test_img_num):
     print(f"Aquarius: {aquarius_correct}/{test_img_num} | {(aquarius_correct/test_img_num)*100}"+"\n"+f"Aries: {aries_correct}/{test_img_num} | {(aries_correct/test_img_num)*100}"+"\n"+f"Cancer: {cancer_correct}/{test_img_num} | {(cancer_correct/test_img_num)*100}"+"\n"+f"Capricorn: {capricorn_correct}/{test_img_num} | {(capricorn_correct/test_img_num)*100}"+"\n"+f"Gemini: {gemini_correct}/{test_img_num} | {(gemini_correct/test_img_num)*100}"+"\n"+f"Leo: {leo_correct}/{test_img_num} | {(leo_correct/test_img_num)*100}"+"\n"+f"Libra: {libra_correct}/{test_img_num} | {(libra_correct/test_img_num)*100}"+"\n"+f"Pisces: {pisces_correct}/{test_img_num} | {(pisces_correct/test_img_num)*100}"+"\n"+f"Sagittarius: {sagittarius_correct}/{test_img_num} | {(sagittarius_correct/test_img_num)*100}"+"\n"+f"Scorpio: {scorpio_correct}/{test_img_num} | {(scorpio_correct/test_img_num)*100}"+"\n"+f"Taurus: {taurus_correct}/{test_img_num} | {(taurus_correct/test_img_num)*100}"+"\n"+f"Virgo: {virgo_correct}/{test_img_num} | {(virgo_correct/test_img_num)*100}")
     print("-----------")
     print(f"Correct: {correct}\nTotal: {total}")
+    print("-----------")
     print(f"Accuracy: {correct/total*100}%")
     return correct/total*100
 
@@ -225,4 +231,4 @@ def mean_test(model, reps, test_img_num):
     return sum(scores)/len(scores)
 
 # Model Number, Number of Test Images
-list_test_mean(20, 22, 3, 25)
+list_test_mean(23, 25, 1, 25)

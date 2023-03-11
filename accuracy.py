@@ -1,4 +1,5 @@
 import cv2
+import matplotlib.pyplot as plt
 import random
 import shutil
 import joblib
@@ -205,7 +206,29 @@ def list_test_mean(start, end, reps, test_img_num):
         scores[f"model{x}"].append(mean_test(x, reps, test_img_num))
     print("-----------------------------")
     for key, value in scores.items():
+        print(scores)
         print(f"{key}: {sum(value)/len(value)}%")
+
+def list_test_mean_graph(start, end, test_img_num, reps=1):
+    scores = {}
+    x_ax = []
+    y_ax = []
+    for model_nums in range(start, end+1):
+        scores[f"model{model_nums}"] = []
+    for model_nums in range(start, end+1):
+        scores[f"model{model_nums}"].append(mean_test(model_nums, reps, test_img_num))
+    print("-----------------------------")
+    for key, value in scores.items():
+        x_ax.append(int(key[-2:]))
+        y_ax.append(sum(value)/len(value))
+        print(f"{key}: {sum(value)/len(value)}%")
+    # Set the x and y axis labels
+    print("-----------------------------")
+    plt.xlabel('Model Number')
+    plt.ylabel('Accuracy')
+    plt.title(f'Model Accuracy with {test_img_num*12} Images')
+    plt.plot(x_ax, y_ax, '-o')
+    plt.show()
 
 def mean_test(model, reps, test_img_num):
     scores = []
@@ -217,4 +240,4 @@ def mean_test(model, reps, test_img_num):
     return sum(scores)/len(scores)
 
 # Model Number, Number of Test Images
-list_test_mean(25, 27, 3, 25)
+list_test_mean_graph(25, 27, 25)

@@ -13,5 +13,3 @@ def delete_columns():
     with open(new_filename, 'w', newline='') as f:
         writer = csv.writer(f)
         writer.writerows(new_data)
-
-delete_columns()

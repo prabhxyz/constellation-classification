@@ -6,11 +6,14 @@ import os
 import csv_data_maker
 import shutil
 import csv
-import format
+import secrets
+import sys
 
 # Constants
 classes = ['Aquarius', 'Aries', 'Cancer', 'Capricorn', 'Gemini', 'Leo', 'Libra', 'Pisces', 'Sagittarius', 'Scorpio', 'Taurus', 'Virgo']
 img_size = (400, 400)
+i = 0
+rng = random.SystemRandom()
 
 # Crete the folders
 shutil.rmtree("img/output/train")
@@ -20,7 +23,7 @@ for cls in classes:
 # Function to create the constellation images
 def create_constellation_image(locations, rotate_angle=0, brightness_adjust=0):
     # Random locations with a range of +/- 5 pixels
-    locations = [(x + random.randint(-5, 5), y + random.randint(-5, 5)) for x, y in locations]
+    locations = [(x + secrets.choice(range(-5, 5)), y + secrets.choice(range(-5, 5))) for x, y in locations]
     # Create an image with black background
     img = np.zeros((img_size[1], img_size[0], 3), np.uint8)
     img[:] = (0, 0, 0)
@@ -34,7 +37,7 @@ def create_constellation_image(locations, rotate_angle=0, brightness_adjust=0):
     # Adjust the brightness of the image
     img = cv2.convertScaleAbs(img, alpha=(1 + brightness_adjust), beta=0)
     # Resize the image to 244x244
-    img = cv2.resize(img, (224, 224))
+    img = cv2.resize(img, (244, 244))
     return img
 
 def make_train_data(num_of_images):
@@ -66,10 +69,12 @@ def make_train_data(num_of_images):
                 locations = csv_data_maker.testing_data('Taurus')
             if cls == 'Virgo':
                 locations = csv_data_maker.testing_data('Virgo')
-            rotate_angle = random.uniform(0, 360)
-            brightness_adjust = random.uniform(-0.1, 0.1)
+            rotate_angle = rng.uniform(0, 360)
+            brightness_adjust = rng.uniform(-0.1, 0.1)
             img = create_constellation_image(locations, rotate_angle, brightness_adjust)
             cv2.imwrite(f"img/output/train/{cls}/{i}.jpg", img)
+            i+=1
+            sys.stdout.write('\r' + f"{(i/num_of_images)*100}% : {cls}")
 def train(min):
     constellation_keys = []
     def add_to_csv(data):
@@ -130,7 +135,7 @@ def train(min):
     add_to_csv(constellation_keys)
 def make_train(num_of_images, min):
     make_train_data(num_of_images)
+    print("\n"+"Adding to csv...")
     train(min)
-    format.format_csv()
 if __name__ == "__main__":
     make_train(50, 20)

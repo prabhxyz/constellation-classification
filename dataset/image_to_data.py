@@ -1,4 +1,3 @@
-import random
 import glob
 import os
 import cv2
@@ -37,7 +36,7 @@ for subfolder in os.listdir(main_folder):
     if os.path.isdir(os.path.join(main_folder, subfolder)):
         subfolder_path = os.path.join(main_folder, subfolder)
         for jpg_file in glob.glob(os.path.join(subfolder_path, "*.jpg")):
-            x_lst, y_lst = process_raw(jpg_file, 15)
+            x_lst, y_lst = process_raw(jpg_file, 10)
             lst = list(zip(x_lst, y_lst))
             final_lst = [str(x) for tup in lst for x in tup]
             final_lst = result = ",".join(final_lst)

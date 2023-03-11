@@ -1,15 +1,21 @@
-import os
 import delete_columns
+
 def format_csv():
-   with open('constellation_data.csv', 'r') as file:
-       lines = file.readlines()
+    with open('constellation_data.csv', 'r') as file:
+        lines = file.readlines()
 
-   # Keep every other line, starting with the first line
-   with open('final.csv', 'w') as new_file:
-       for i, line in enumerate(lines):
-           if i % 2 == 0:
-               new_file.write(line)
+    # Write new header as the first line
+    with open('constellation_data.csv', 'w') as new_file:
+        for line in lines:
+            # split the line into columns using a comma as the separator
+            columns = line.split(',')
+            # check if all columns are empty (i.e., contain only whitespace)
+            if all(col.strip() == '' for col in columns):
+                continue  # skip the row if all columns are empty
+            elif line.strip():  # check if line contains non-whitespace characters
+                new_file.write(line)
 
-   os.remove("constellation_data.csv")
-   os.rename("final.csv", "constellation_data.csv")
-   delete_columns.delete_columns()
+    delete_columns.delete_columns()
+
+if __name__ == '__main__':
+    format_csv()

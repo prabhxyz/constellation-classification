@@ -3,11 +3,12 @@ import numpy as np
 import process
 
 # Load the saved model
-model = joblib.load('models/model25.sav')
+print("Loading model...")
+model = joblib.load('models/model26.sav')
 # The parameters for the process function... (threshold, min_area)
 # A high threshold will remove more colored pixels from the image, and so on.
 # A high min_area will only recognize large groups of white pixels as a star, and so on.
-list1, list2 = process.process(125, 20)
+list1, list2 = process.process(100, 20)
 final_list = []
 for i in range(len(list1)):
     final_list.append(list1[i])

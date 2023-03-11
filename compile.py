@@ -6,20 +6,21 @@ import pandas as pd
 import joblib
 
 # Load the dataset
-df = pd.read_csv('dataset/constellation_data.csv')
+print("Loading dataset...")
+df = pd.read_csv('dataset/backup/2backup_constellation_data.csv')
 
 # Split the dataset into training and testing sets
 X = df.drop('constellation_name', axis=1)
 y = df['constellation_name']
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.01, random_state=42)
 
 imputer = SimpleImputer(strategy='constant', fill_value=-5)
 X_train = imputer.fit_transform(X_train)
 X_test = imputer.transform(X_test)
 
 # Train the model
-k = 5
-model_num = 25
+k = 10
+model_num = 27
 model = KNeighborsClassifier(n_neighbors=k)
 print(f"Training model v{model_num} with k={k}....")
 model.fit(X_train, y_train)

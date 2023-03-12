@@ -131,4 +131,4 @@ if __name__ == '__main__':
         train_data_maker.make_train(num_of_img, 8)
         print("Formatting...")
         format_csv()
-    data_gen(38000, 35000)
+    data_gen(28000, 20000)

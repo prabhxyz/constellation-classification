@@ -219,7 +219,10 @@ def list_test_mean_graph(start, end, test_img_num, reps=1):
         scores[f"model{model_nums}"].append(mean_test(model_nums, reps, test_img_num))
     print("-----------------------------")
     for key, value in scores.items():
-        x_ax.append(int(key[-2:]))
+        if key[-2] == "l":
+            x_ax.append(int(key[-1:]))
+        else:
+            x_ax.append(int(key[-2:]))
         y_ax.append(sum(value)/len(value))
         print(f"{key}: {sum(value)/len(value)}%")
     # Set the x and y axis labels
@@ -240,4 +243,4 @@ def mean_test(model, reps, test_img_num):
     return sum(scores)/len(scores)
 
 # Model Number, Number of Test Images
-list_test_mean_graph(25, 27, 25)
+list_test_mean_graph(30, 31, 25)

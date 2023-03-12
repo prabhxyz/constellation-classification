@@ -8,7 +8,7 @@ model = joblib.load('models/model31.sav')
 # The parameters for the process function... (threshold, min_area)
 # A high threshold will remove more colored pixels from the image, and so on.
 # A high min_area will only recognize large groups of white pixels as a star, and so on.
-list1, list2 = process.process(100, 18)
+list1, list2 = process.process(100, 20)
 final_list = []
 for i in range(len(list1)):
     final_list.append(list1[i])
@@ -31,7 +31,7 @@ clnum_dict = {'Aquarius': 0, 'Aries': 1, 'Cancer': 2, 'Capricorn': 3, 'Gemini': 
 clnum = clnum_dict[prediction[0]]
 cur_con = 0
 
-# Print the predicted constellation name
+# Print the predicted constellation names
 print("Prediction:", prediction[0])
 print("Confidence Score:", (model.predict_proba(X_predict)[0][clnum])*100, "%")
 print("Confidence Scores:")

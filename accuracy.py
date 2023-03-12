@@ -151,10 +151,6 @@ def test(model, test_img_num):
             final_list = final_list.reshape(1, -1)
             X_predict = np.array(final_list)
             prediction = model.predict(X_predict)
-            clnum_dict = {'Aquarius': 0, 'Aries': 1, 'Cancer': 2, 'Capricorn': 3, 'Gemini': 4, 'Leo': 5, 'Libra': 6,
-                          'Pisces': 7, 'Sagittarius': 8, 'Scorpio': 9, 'Taurus': 10, 'Virgo': 11}
-            clnum = clnum_dict[prediction[0]]
-            cur_con = 0
             if prediction[0] == os.path.basename(dirpath):
                 correct+=1
                 if prediction[0] == 'Aquarius':
